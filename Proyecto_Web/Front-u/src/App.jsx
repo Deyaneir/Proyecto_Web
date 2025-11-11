@@ -10,13 +10,14 @@ import Eventos from "./pages/eventos/Eventos";
 import Beneficios from "./pages/beneficios/Beneficios";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Matches from "./pages/Matches/Matches";
+import { Confirm } from "./pages/confirm";
 import AOS from "aos";
 import 'aos/dist/aos.css';
 
 function App() {
-useEffect(() => {
-  AOS.init({ once: true });
-}, []);
+  useEffect(() => {
+    AOS.init({ once: true });
+  }, []);
 
   return (
     <BrowserRouter>
@@ -31,11 +32,12 @@ useEffect(() => {
         <Route path="beneficios" element={<Beneficios />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="matches" element={<Matches />} />
-      </Routes>
-      
-    </BrowserRouter>
 
-  )
+        {/* ✅ Ruta de confirmación de cuenta */}
+        <Route path="confirmar/:token" element={<Confirm />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
