@@ -15,6 +15,11 @@ import AOS from "aos";
 import 'aos/dist/aos.css';
 import ForgotPassword from "./pages/forgot-password/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import MUsuario from "./pages/MUsuario/MUsuario"; // ajusta la ruta según tu proyecto
+
+// Componentes placeholders para no tener warnings
+//import Galeria from "./pages/Galeria/Galeria";
+//import Seguidores from "./pages/Seguidores/Seguidores";
 
 function App() {
   useEffect(() => {
@@ -41,6 +46,10 @@ function App() {
         {/* Recuperación de contraseña */}
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="recuperarpassword/:token" element={<ResetPassword />} />
+
+        {/* Dashboard y usuario */}
+        <Route path="MUsuario" element={<MUsuario />} />
+        <Route path="UserProfile" element={<MUsuario />} /> {/* Alias para /MUsuario */}
       </Routes>
     </BrowserRouter>
   );

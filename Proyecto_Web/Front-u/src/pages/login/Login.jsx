@@ -20,16 +20,26 @@ const Login = () => {
                 `${import.meta.env.VITE_BACKEND_URL}/login`,
                 {
                     correoInstitucional: data.email,
-                    password: data.password
+                    password: data.password,
+                    rol: data.rol // ⬅ enviando rol seleccionado
                 }
             );
 
             const { token, nombre, correoInstitucional } = res.data;
+
             localStorage.setItem("token", token);
             localStorage.setItem("nombre", nombre);
             localStorage.setItem("correo", correoInstitucional);
+            localStorage.setItem("rol", data.rol);
 
-            setTimeout(() => navigate("/dashboard"), 1000);
+            toast.update(loadingToast, {
+                render: "¡Bienvenido!",
+                type: "success",
+                isLoading: false,
+                autoClose: 1200
+            });
+
+            setTimeout(() => navigate("/dashboard"), 900);
 
         } catch (error) {
             toast.update(loadingToast, {
@@ -56,6 +66,8 @@ const Login = () => {
                     </p>
 
                     <form className="login-form" onSubmit={handleSubmit(handleLogin)}>
+                        
+                        {/* EMAIL */}
                         <div className="input-group">
                             <input
                                 type="email"
@@ -65,6 +77,7 @@ const Login = () => {
                             {errors.email && <span className="error-text">{errors.email.message}</span>}
                         </div>
 
+                        {/* PASSWORD */}
                         <div className="input-group">
                             <input
                                 type="password"
@@ -74,14 +87,33 @@ const Login = () => {
                             {errors.password && <span className="error-text">{errors.password.message}</span>}
                         </div>
 
+                        {/* 🔻 SELECT DE ROL (DESPLEGABLE) — ANTES DEL BOTÓN */}
+                        <div className="input-group">
+                            <select
+                                {...register("rol", { required: "Selecciona un rol" })}
+                                className="select-rol"
+                            >
+                                <option value="">Seleccionar rol...</option>
+                                <option value="administracion">Administración</option>
+                                <option value="estudiante">Estudiante</option>
+                                <option value="moderador">Moderador</option>
+                            </select>
+
+                            {errors.rol && (
+                                <span className="error-text">{errors.rol.message}</span>
+                            )}
+                        </div>
+
+                        {/* BOTÓN DE LOGIN */}
                         <button type="submit" className="login-btn">Iniciar Sesión</button>
 
-                        {/* 🔹 NUEVO: Enlace para recuperar contraseña */}
+                        {/* FORGOT PASSWORD */}
                         <Link to="/Forgot-password" className="Forgot-link">
                             ¿Olvidaste tu contraseña?
                         </Link>
                     </form>
 
+                    {/* REGISTRO */}
                     <Link to="/register" className="register-link">
                         ¿No tienes cuenta? Regístrate aquí
                     </Link>

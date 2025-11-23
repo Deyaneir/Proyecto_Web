@@ -56,7 +56,7 @@
     text-align: left;
 }
 .input-group input {
-    width: 100%;
+    width: 93%;
     padding: 15px;
     border: 2px solid #e0e0e0;
     border-radius: 10px;
@@ -143,4 +143,32 @@
 .back-btn:hover {
     background: rgba(0,0,0,0.2);
     transform: scale(1.1);
+}
+/* Roles*/
+.select-rol {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #7663e0;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+}
+
+.select-rol:focus {
+  border-color: #4d73ff;
+}
+
+
+/* Ajustes responsivos */
+@media (max-width: 480px) {
+  .role-bar {
+    gap: 6px;
+    padding: 4px;
+  }
+  .role-btn {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
 }
