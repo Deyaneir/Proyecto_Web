@@ -23,11 +23,36 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// ======================================================
+// 🚫 Lista negra de dominios
+// ======================================================
+const blackListDomains = [
+  "gmail.com",
+  "hotmail.com",
+  "outlook.com",
+  "yahoo.com",
+  "live.com",
+  "aol.com",
+  "msn.com",
+  "icloud.com",
+  "protonmail.com"
+];
+
+const isBlackListed = (email) => {
+  const domain = email.split("@")[1]?.toLowerCase();
+  return blackListDomains.includes(domain);
+};
 
 // ======================================================
 // 🔹 Función genérica para envíos de registro
 // ======================================================
 const sendMail = async (to, subject, html) => {
+  // 🚫 Bloquear dominios de la lista negra
+  if (isBlackListed(to)) {
+    console.log(`❌ Correo bloqueado por lista negra: ${to}`);
+    throw new Error("Correo no permitido. Usa tu correo institucional.");
+  }
+
   try {
     const info = await transporter.sendMail({
       from: `"Vibe-U 🎓" <${USER_EMAIL}>`,
@@ -42,26 +67,6 @@ const sendMail = async (to, subject, html) => {
     throw error;
   }
 };
-
-// ======================================================
-// 🔹 Función genérica para envíos de recuperación
-// ======================================================
-
-/* const sendMailRP = async (to, subject, html) => {
-  try {
-    const info = await transporter.sendMail({
-      from: `"Vibe-U 🎓" <${USER_EMAIL}>`,
-      to,
-      subject,
-      html,
-    });
-    console.log("📩 Email de recuperación enviado:", info.messageId);
-    return info;
-  } catch (error) {
-    console.error("❌ Error enviando email de recuperación:", error);
-    throw error;
-  }
-}; */
 
 // ======================================================
 // 🟣 CORREO DE CONFIRMACIÓN (Registro)
@@ -89,7 +94,6 @@ const sendMailToRegister = async (userMail, token) => {
 // 🟣 CORREO DE RECUPERACIÓN DE PASSWORD
 // ======================================================
 const sendMailToRecoveryPassword = async (userMail, token) => {
-  // 🔹 Cambiado para coincidir con la ruta de React Router
   const urlRecovery = `${URL_FRONTEND}/recuperarpassword/${token}`;
 
   const html = `
